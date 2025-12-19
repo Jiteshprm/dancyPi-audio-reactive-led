@@ -103,21 +103,36 @@ def _update_pi():
     pixels = np.clip(pixels, 0, 255).astype(int)
     # Optional gamma correction
     p = _gamma[pixels] if config.SOFTWARE_GAMMA_CORRECTION else np.copy(pixels)
-    # Encode 24-bit LED values in 32 bit integers
-    r = np.left_shift(p[0][:].astype(int), 8)
-    g = np.left_shift(p[1][:].astype(int), 16)
-    b = p[2][:].astype(int)
-    rgb = np.bitwise_or(np.bitwise_or(r, g), b)
-    # Update the pixels
     for i in range(config.N_PIXELS):
-        # Ignore pixels if they haven't changed (saves bandwidth)
+        # Skip unchanged pixels
         if np.array_equal(p[:, i], _prev_pixels[:, i]):
             continue
-            
-        # strip._led_data[i] = int(rgb[i])
-        strip[i] = (int(rgb[0]), int(rgb[1]), int(rgb[2]))
+
+        # NeoPixel expects (R, G, B)
+        strip[i] = (
+            int(p[0, i]),
+            int(p[1, i]),
+            int(p[2, i])
+        )
+
     _prev_pixels = np.copy(p)
     strip.show()
+
+    # # Encode 24-bit LED values in 32 bit integers
+    # r = np.left_shift(p[0][:].astype(int), 8)
+    # g = np.left_shift(p[1][:].astype(int), 16)
+    # b = p[2][:].astype(int)
+    # rgb = np.bitwise_or(np.bitwise_or(r, g), b)
+    # # Update the pixels
+    # for i in range(config.N_PIXELS):
+    #     # Ignore pixels if they haven't changed (saves bandwidth)
+    #     if np.array_equal(p[:, i], _prev_pixels[:, i]):
+    #         continue
+    #
+    #     # strip._led_data[i] = int(rgb[i])
+    #     strip[i] = (int(rgb[0]), int(rgb[1]), int(rgb[2]))
+    # _prev_pixels = np.copy(p)
+    # strip.show()
 
 def _update_blinkstick():
     """Writes new LED values to the Blinkstick.
