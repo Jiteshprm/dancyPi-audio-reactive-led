@@ -4,6 +4,8 @@ from __future__ import division
 import platform
 import numpy as np
 import config
+import board
+import neopixel
 
 # ESP8266 uses WiFi communication
 if config.DEVICE == 'esp8266':
@@ -11,11 +13,18 @@ if config.DEVICE == 'esp8266':
     _sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 # Raspberry Pi controls the LED strip directly
 elif config.DEVICE == 'pi':
-    from rpi_ws281x import *
-    strip = Adafruit_NeoPixel(config.N_PIXELS, config.LED_PIN,
-                                       config.LED_FREQ_HZ, config.LED_DMA,
-                                       config.LED_INVERT, config.BRIGHTNESS)
-    strip.begin()
+    strip = neopixel.NeoPixel(
+        board.D18,  # GPIO18 ONLY on Raspberry Pi
+        config.N_PIXELS,
+        brightness=config.BRIGHTNESS / 255.0,
+        auto_write=False#,
+        #pixel_order=PixelOrder.GRB
+    )
+    # from rpi_ws281x import *
+    # strip = Adafruit_NeoPixel(config.N_PIXELS, config.LED_PIN,
+    #                                    config.LED_FREQ_HZ, config.LED_DMA,
+    #                                    config.LED_INVERT, config.BRIGHTNESS)
+    # strip.begin()
 elif config.DEVICE == 'blinkstick':
     from blinkstick import blinkstick
     import signal
@@ -105,7 +114,8 @@ def _update_pi():
         if np.array_equal(p[:, i], _prev_pixels[:, i]):
             continue
             
-        strip._led_data[i] = int(rgb[i])
+        # strip._led_data[i] = int(rgb[i])
+        strip[i] = (int(rgb[0]), int(rgb[1]), int(rgb[2]))
     _prev_pixels = np.copy(p)
     strip.show()
 
