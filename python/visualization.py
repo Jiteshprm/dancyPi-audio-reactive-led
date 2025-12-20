@@ -5,6 +5,7 @@ import numpy as np
 from scipy.ndimage.filters import gaussian_filter1d
 import config
 import microphone
+import playaudio
 import dsp
 import led
 import sys
@@ -365,4 +366,5 @@ if __name__ == '__main__':
     # Initialize LEDs
     led.update()
     # Start listening to live audio stream
-    microphone.start_stream(microphone_update)
+    # microphone.start_stream(microphone_update)
+    playaudio.start_stream(microphone_update)
