@@ -7,6 +7,7 @@ export DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/1000/bus"
 
 export LOGGING_LEVEL=INFO
 source /home/birdofprey/dancyPi-audio-reactive-led/.venv/bin/activate
+python3 off.py
 python3 visualization.py scroll
 # Save the exit status
 STATUS=$?

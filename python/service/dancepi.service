@@ -1,6 +1,7 @@
 [Unit]
 Description=DancyPi Audio Reactive LED Service
-After=network.target sound.target
+After=multi-user.target network-online.target sound.target
+Wants=network-online.target
 
 [Service]
 Type=simple
