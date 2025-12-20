@@ -18,7 +18,7 @@ def start_stream(callback):
         format=p.get_format_from_width(audio.sample_width),
         channels=audio.channels,
         rate=audio.frame_rate,
-        output=True
+        input=True
     )
 
     # p = pyaudio.PyAudio()
