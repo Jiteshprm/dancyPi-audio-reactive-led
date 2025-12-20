@@ -1,0 +1,14 @@
+[Unit]
+Description=DancyPi Audio Reactive LED Service
+After=network.target sound.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/home/birdofprey/dancyPi-audio-reactive-led/python
+ExecStart=/bin/bash /home/birdofprey/dancyPi-audio-reactive-led/python/start_dancepi.sh
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
