@@ -32,7 +32,7 @@ if DEVICE == 'pi':
     """LED signal frequency in Hz (usually 800kHz)"""
     LED_DMA = 5
     """DMA channel used for generating PWM signal (try 5)"""
-    BRIGHTNESS = 255
+    BRIGHTNESS = 124
     """Brightness of LED strip between 0 and 255"""
     LED_INVERT = False
     """Set True if using an inverting logic level converter"""
