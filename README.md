@@ -43,29 +43,42 @@ After we install git, clone this repo:
 git clone https://github.com/naztronaut/dancyPi-audio-reactive-led.git
 ```
 
-Then let's head into our install directory and continue to the next step:
+Updated December 2025: Instructions for Raspbian Bookworm, python 3.11 install with venv:
 
 ```shell
-cd dancyPi-audio-reactive-led/python/install
-```
+cd dancyPi-audio-reactive-led
+python3 -m venv .venv
+source .venv/bin/activate
+sudo apt install python3-numpy
+sudo apt install python3-scipy
+sudo apt install -y portaudio19-dev python3-pyaudio
+pip install --upgrade pip setuptools wheel
+pip install --upgrade numpy --only-binary=:all:
+pip install scipy --only-binary=:all:
+pip install --upgrade adafruit-blinka adafruit-circuitpython-neopixel
+pip3 install pydub
+pip3 install pyaudio
+sudo apt install -y python3-pyqt5 python3-pyqt5.qtopengl
+pip install pyqtgraph
+``` 
 
-### Install dependencies with `install.py`
-
-In the previous version, there were MANY steps before the lights would work. I tried my best to simply this into one simple command which modifies the audio config files as needed
-and installs all dependencies globally. Once you are in the install directory, run this command:
+If you want it to start at boot using a service, change the home paths in start_dancepi.sh and dancepi.service
 
 ```shell
-sudo python3 install.py
-```
+cd dancyPi-audio-reactive-led
+cd install/service
+chmod +x *.sh
+sudo ./start_all_services.sh
+``` 
 
-The installation should take a few minutes (depends on your internet speed and how many of the packages need a full install). The script is very simple. It runs a bunch of `sudo apt install`
-and `pip3 install` commands followed by placing the `asound.conf` file in its proper location and modifying the `alsa.conf` as necessary by commenting out hardware that is not needed/used
-and making sure the correct audio device is used. 
+To stop all services
+```shell
+cd dancyPi-audio-reactive-led
+cd install/service
+chmod +x *.sh
+sudo ./stop_all_services.sh
+``` 
 
-The script also installs the `rpi_ws281x` library which is used to actually turn the lights on and off. In the previous version, this install required about 8 steps on its own. Now it's done
-through the install script. Since it's done this way, there's no more "demo" script that you can run. I will maybe work on one later (may or may not be in another repo). 
-
-You'll still need to make some edits to fit your needs. 
 
 ### `config.py` has been edited as follows:
 
