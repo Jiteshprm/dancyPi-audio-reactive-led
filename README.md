@@ -79,6 +79,9 @@ chmod +x *.sh
 sudo ./stop_all_services.sh
 ``` 
 
+This fork runs with NeoPixel API, which is confirmed working with a microphone in a Raspberry Pi Zero 2W with 5v SK6812 GBR LEDs strip with Data pin on GPIO 12.
+
+
 
 ### `config.py` has been edited as follows:
 
